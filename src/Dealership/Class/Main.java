@@ -23,7 +23,7 @@ public class Main {
 
         // Return the vehicle
         Date returnDate = new Date(); // Use appropriate date and time
-        dealership.returnVehicle(dealership.getClients().get(0), dealership.getVehicles().get(0), returnDate);
+        dealership.returnVehicle((Client) dealership.getClients().get(0), (Vehicle) dealership.getVehicles().get(0), returnDate);
 
 
     }

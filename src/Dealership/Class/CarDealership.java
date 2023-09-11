@@ -60,4 +60,7 @@ public class CarDealership {
         //CREATE CODE
         return null;
     }
+
+    public void rentVehicle(Object o, Object o1, Date rentDate, int rentalDays) {
+    }
 }

@@ -12,7 +12,7 @@ public class RentService implements RentalService {
     private static final double SSN_DISCOUNT = 0.05;
     private static final double EIN_DISCOUNT = 0.10;
 
-    @Override
+
     public double rentVehicle(Vehicle vehicle, Client client, Date startDate, int numberOfDays) {
         if (vehicle.isRented()) {
             System.out.println("Vehicle is already rented.");
@@ -34,7 +34,6 @@ public class RentService implements RentalService {
         return rentalPrice;
     }
 
-    @Override
     public void returnVehicle(Vehicle vehicle, Date returnDate) {
         if (!vehicle.isRented()) {
             System.out.println("Vehicle is not rented.");
@@ -42,6 +41,16 @@ public class RentService implements RentalService {
 
         vehicle.returnVehicle();
         System.out.println("Vehicle returned successfully.");
+    }
+
+    @Override
+    public void rentVehicle(Client client, Vehicle vehicle, Date rentDate, int rentalDays) {
+
+    }
+
+    @Override
+    public void returnVehicle(Client client, Vehicle vehicle, Date returnDate) {
+
     }
 }
 
