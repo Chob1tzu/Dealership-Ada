@@ -20,4 +20,8 @@ public class Client {
     public ClientType getType() {
         return type;
     }
+
+    public String getName() {
+        return name;
+    }
 }

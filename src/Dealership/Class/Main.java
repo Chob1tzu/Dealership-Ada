@@ -15,7 +15,8 @@ public class Main {
         dealership.registerVehicle("ABC123", VehicleType.MEDIUM);
 
         // Register a client
-        dealership.registerClient("EIN123", ClientType.EIN);
+        dealership.registerClient("Roberto", "123.456.789-41", ClientType.SSN);
+        dealership.registerClient("Bradesco Empresa", "60.746.948/0001-12", ClientType.EIN);
 
         // Rent a vehicle
         Date rentDate = new Date(); // Use appropriate date and time

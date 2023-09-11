@@ -53,15 +53,14 @@ public class CarDealership {
         return null; // Vehicle not found
     }
 
-    public void registerClient(String id, ClientType type) {
+    public void registerClient(String name, String id, ClientType type) {
         for (Client client : clients) {
             if (client.getId().equals(id)) {
                 System.out.println("Client with this ID already exists.");
                 return;
             }
         }
-
-        Client newClient = new Client(id, type);
+        Client newClient = new Client(name, id, type); //
         clients.add(newClient);
         System.out.println("Client registered successfully.");
     }
