@@ -30,7 +30,8 @@ public class RentService implements RentalService {
         else if (client.getType() == ClientType.EIN && numberOfDays >= 3) rate *= (1 - EIN_DISCOUNT);
 
         double rentalPrice = rate * numberOfDays;
-        vehicle.rent();
+        vehicle.isRented = false;
+        vehicle.lastRentedDate = null;
         return rentalPrice;
     }
 
@@ -39,7 +40,7 @@ public class RentService implements RentalService {
             System.out.println("Vehicle is not rented.");
         }
 
-        vehicle.returnVehicle();
+        vehicle.returnVehicle(returnDate);
         System.out.println("Vehicle returned successfully.");
     }
 

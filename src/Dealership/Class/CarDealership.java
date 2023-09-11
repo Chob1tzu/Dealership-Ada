@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+
 public class CarDealership {
     private List<Vehicle> vehicles;
     private List<Client> clients;
@@ -53,7 +54,7 @@ public class CarDealership {
         return null; // Vehicle not found
     }
 
-    public void registerClient(String id, ClientType type) {
+    public void registerClient(String name,String id, ClientType type) {
         for (Client client : clients) {
             if (client.getId().equals(id)) {
                 System.out.println("Client with this ID already exists.");
@@ -61,15 +62,15 @@ public class CarDealership {
             }
         }
 
-        Client newClient = new Client(id, type);
+        Client newClient = new Client(name,id, type);
         clients.add(newClient);
         System.out.println("Client registered successfully.");
     }
 
-    public void modifyClient(String id, ClientType newType) {
+    public void modifyClient(String name,String id, ClientType newType) {
         for (Client client : clients) {
             if (client.getId().equals(id)) {
-                client = new Client(id, newType);
+                client = new Client(name,id, newType);
                 System.out.println("Client modified successfully.");
                 return;
             }
@@ -118,7 +119,16 @@ public class CarDealership {
         }
         return null; // Client not found
     }
-    public Map<Object, Object> getClients() {
+    private Client findClientByName(String clientName) {
+        for (Client client : clients) {
+            if (client.getId().equals(clientName)) {
+                return client;
+            }
+        }
+        return null; // Client not found
+    }
+
+    /* public Map<Object, Object> getClients() {
         //CREATE CODE
         return null;
     }
@@ -129,5 +139,6 @@ public class CarDealership {
     }
 
     public void rentVehicle(Object o, Object o1, Date rentDate, int rentalDays) {
-    }
+    } */
+
 }
