@@ -4,6 +4,7 @@ package Dealership.Class;
 import Dealership.Enum.ClientType;
 import Dealership.Enum.VehicleType;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Main {
@@ -11,21 +12,24 @@ public class Main {
 
         CarDealership dealership = new CarDealership();
 
-        // Register a vehicle
-        dealership.registerVehicle("ABC123", VehicleType.MEDIUM);
+        dealership.registerVehicle("ABC123", VehicleType.SMALL);
+        dealership.registerVehicle("XYZ456", VehicleType.MEDIUM);
 
-        // Register a client
         dealership.registerClient("Roberto", "123.456.789-41", ClientType.SSN);
         dealership.registerClient("Bradesco Empresa", "60.746.948/0001-12", ClientType.EIN);
 
-        // Rent a vehicle
-        Date rentDate = new Date(); // Use appropriate date and time
-        dealership.rentVehicle(dealership.getClients().get(0), dealership.getVehicles().get(0), rentDate, 5);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date rentDate = dateFormat.parse("2023-09-10 10:00:00");
+            dealership.rentVehicle("ABC123", "123EIN", rentDate);
 
-        // Return the vehicle
-        Date returnDate = new Date(); // Use appropriate date and time
-        dealership.returnVehicle((Client) dealership.getClients().get(0), (Vehicle) dealership.getVehicles().get(0), returnDate);
-
+            // Return the vehicle
+            Date returnDate = dateFormat.parse("2023-09-11 10:00:00");
+            double rentalPrice = dealership.returnVehicle("ABC123", returnDate);
+            System.out.println("Rental Price: $" + rentalPrice);
+        } catch (Exception e) {
+            System.out.println("error while trying to return a vehicle. ");
+        }
 
     }
 }
