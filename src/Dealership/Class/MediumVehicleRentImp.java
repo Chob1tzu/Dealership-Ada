@@ -47,7 +47,7 @@ public class MediumVehicleRentImp implements RentService {
         Vehicle vehicle = dealership.searchVehicleById(vehicleId);
         if (vehicle.isRented) {
             // Calculate the rental duration in days
-            long rentalDuration = (returnDate.getTime() - vehicle.lastRentedDate.getTime()) / (24 * 60 * 60 * 1000);
+            double rentalDuration = ((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime())) / (24 * 60 * 60 * 1000);
 
             double rentalPrice = MEDIUM_RATE * rentalDuration;
 

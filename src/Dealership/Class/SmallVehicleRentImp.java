@@ -31,7 +31,7 @@ public class SmallVehicleRentImp implements RentService {
     public double returnVehicle(Dealership dealership, RentService rentService, String vehicleId, String clientId, Date returnDate) {
         Vehicle vehicle = dealership.searchVehicleById(vehicleId);
         if (vehicle != null && vehicle.isRented()) {
-            double rentalPrice = rentPrice(dealership, rentService, vehicleId, clientId, returnDate);
+            double rentalPrice = rentService.rentPrice(dealership, rentService, vehicleId, clientId, returnDate);
             System.out.println("Vehicle returned successfully.");
             return rentalPrice;
         } else if (vehicle != null) {
@@ -47,7 +47,7 @@ public class SmallVehicleRentImp implements RentService {
         Vehicle vehicle = dealership.searchVehicleById(vehicleId);
         if (vehicle.isRented) {
             // Calculate the rental duration in days
-            long rentalDuration = (returnDate.getTime() - vehicle.lastRentedDate.getTime()) / (24 * 60 * 60 * 1000);
+            double rentalDuration =  Math.ceil((double) ((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime())) / (24 * 60 * 60 * 1000));
 
             double rentalPrice = SMALL_RATE * rentalDuration;
 
