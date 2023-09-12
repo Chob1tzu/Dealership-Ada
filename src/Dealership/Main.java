@@ -1,8 +1,11 @@
-package Dealership.Class;
+package Dealership;
 
 
+import Dealership.Class.Dealership;
+import Dealership.Class.SuvVehicleRentImp;
 import Dealership.Enum.ClientType;
 import Dealership.Enum.VehicleType;
+import Dealership.Interface.RentService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,11 +13,10 @@ import java.util.Date;
 public class Main {
     public static void main(String[] args) {
 
-        CarDealership dealership = new CarDealership();
-        RentService rentService = new RentService();
+        Dealership dealership = new Dealership();
+        RentService rentService = new SuvVehicleRentImp();
+        dealership.registerVehicle("123", VehicleType.SMALL,"Ford", "KA", "2010", "ABC123");
 
-        dealership.registerVehicle("ABC123", VehicleType.SMALL);
-        dealership.registerVehicle("XYZ456", VehicleType.MEDIUM);
 
         dealership.registerClient("Paulo","123EIN", ClientType.EIN);
         dealership.registerClient("Rodrigo","456SSN", ClientType.SSN);
@@ -22,14 +24,14 @@ public class Main {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date rentDate = dateFormat.parse("2023-09-10 10:00:00");
-            rentService.rentVehicle(dealership,"ABC123", "123EIN", rentDate);
+            rentService.rentVehicle(dealership,rentService,"123","123EIN", rentDate);
 
             // Return the vehicle
-            Date returnDate = dateFormat.parse("2023-09-14 10:00:00");
-            double rentalPrice = rentService.returnVehicle(dealership,rentService, "ABC123", returnDate);
+            Date returnDate = dateFormat.parse("2023-09-11 11:00:00");
+            double rentalPrice = rentService.returnVehicle(dealership, rentService, "123", "123EIN", returnDate);
             System.out.println("Rental Price: $" + rentalPrice);
         } catch (Exception e) {
-            System.out.println("error while trying to return a vehicle. ");
+            System.out.println("erro");
         }
 
     }
