@@ -2,7 +2,7 @@ package Dealership.Class;
 
 import Dealership.Enum.ClientType;
 import Dealership.Enum.VehicleType;
-import Dealership.Interface.RentalService;
+import Dealership.Class.RentService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,12 +13,10 @@ import java.util.Map;
 public class CarDealership {
     private List<Vehicle> vehicles;
     private List<Client> clients;
-    private RentalService rentalService;
 
     public CarDealership() {
         vehicles = new ArrayList<>();
         clients = new ArrayList<>();
-        rentalService = new RentingServiceImpl();
     }
 
     public void registerVehicle(String plateNumber, VehicleType type) {
@@ -77,7 +75,24 @@ public class CarDealership {
         }
         System.out.println("Client not found.");
     }
+    public Client findClientById(String clientId) {
+        for (Client client : clients) {
+            if (client.getId().equals(clientId)) {
+                return client;
+            }
+        }
+        return null; // Client not found
+    }
+    private Client findClientByName(String clientName) {
+        for (Client client : clients) {
+            if (client.getId().equals(clientName)) {
+                return client;
+            }
+        }
+        return null; // Client not found
+    }
 
+    /*
     public boolean rentVehicle(String plateNumber, String clientId, Date rentDate) {
         Vehicle vehicle = searchVehicle(plateNumber);
         if (vehicle != null && !vehicle.isRented()) {
@@ -111,24 +126,9 @@ public class CarDealership {
         return 0.0; // Vehicle not found or not rented
     }
 
-    private Client findClientById(String clientId) {
-        for (Client client : clients) {
-            if (client.getId().equals(clientId)) {
-                return client;
-            }
-        }
-        return null; // Client not found
-    }
-    private Client findClientByName(String clientName) {
-        for (Client client : clients) {
-            if (client.getId().equals(clientName)) {
-                return client;
-            }
-        }
-        return null; // Client not found
-    }
 
-    /* public Map<Object, Object> getClients() {
+
+     public Map<Object, Object> getClients() {
         //CREATE CODE
         return null;
     }

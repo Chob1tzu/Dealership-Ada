@@ -25,6 +25,14 @@ public class Vehicle {
         return type;
     }
 
+    public void setRented() {
+        this.isRented = false;
+    }
+
+    public void setLastRentedDate() {
+        this.lastRentedDate = null;
+    }
+
     public boolean isRented() {
         return isRented;
     }
@@ -36,7 +44,7 @@ public class Vehicle {
         }
     }
 
-    public double returnVehicle(Date returnDate) {
+    /*public double returnVehicle(Date returnDate) {
         if (isRented) {
             // Calculate the rental duration in days
             long rentalDuration = (returnDate.getTime() - lastRentedDate.getTime()) / (24 * 60 * 60 * 1000);
@@ -60,6 +68,6 @@ public class Vehicle {
             return rentalPrice;
         }
         return 0.0; // Vehicle was not rented
-    }
+    } */
 
 }
