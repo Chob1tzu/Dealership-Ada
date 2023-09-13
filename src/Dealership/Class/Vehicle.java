@@ -100,4 +100,5 @@ public class Vehicle {
             this.lastRentedDate = rentDate;
         }
     }
+
 }

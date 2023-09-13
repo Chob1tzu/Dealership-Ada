@@ -5,11 +5,7 @@ import Dealership.Class.Dealership;
 import Dealership.Class.Vehicle;
 import Dealership.Enum.VehicleType;
 import Dealership.Enum.ClientType;
-
 import javax.swing.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class MainFrame extends JFrame {
@@ -25,7 +21,6 @@ public class MainFrame extends JFrame {
     private JButton searchVehicleByPlate;
     private JLabel dialogoBox;
     private JButton showInfoButton;
-    private JButton rentVehicleButton;
 
     public MainFrame() {
 //      Informações sobre o mainFrame
@@ -281,62 +276,6 @@ public class MainFrame extends JFrame {
             }
 
             JOptionPane.showMessageDialog(MainFrame.this, infoMessage.toString(), "Registered Vehicles and Clients", JOptionPane.INFORMATION_MESSAGE);
-        });
-        rentVehicleButton.addActionListener(e -> {
-            String plateNumber = JOptionPane.showInputDialog("Enter the vehicle license plate number:");
-            if (plateNumber == null) {
-                return;
-            }
-            plateNumber = plateNumber.trim();
-            if (plateNumber.isEmpty()) {
-                JOptionPane.showMessageDialog(MainFrame.this, "The license plate number cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            String clientId = JOptionPane.showInputDialog("Enter the client ID:");
-            if (clientId == null) {
-                return;
-            }
-            clientId = clientId.trim();
-            if (clientId.isEmpty()) {
-                JOptionPane.showMessageDialog(MainFrame.this, "The client ID must not be empty!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            JTextField locationField = new JTextField();
-            Object[] locationMessage = {
-                    "Location:", locationField
-            };
-            int locationOption = JOptionPane.showConfirmDialog(null, locationMessage, "Enter the Location", JOptionPane.OK_CANCEL_OPTION);
-            if (locationOption == JOptionPane.OK_OPTION) {
-                String location = locationField.getText();
-                JTextField rentDateField = new JTextField();
-                Object[] rentDateMessage = {
-                        "Rental Date:", rentDateField
-                };
-                int rentDateOption = JOptionPane.showConfirmDialog(null, rentDateMessage, "Enter the rental date:", JOptionPane.OK_CANCEL_OPTION);
-                if (rentDateOption == JOptionPane.OK_OPTION) {
-                    try {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        Date rentDate = dateFormat.parse(rentDateField.getText());
-                        JTextField returnDateField = new JTextField();
-                        Object[] returnDateMessage = {
-                                "Return date:", returnDateField
-                        };
-                        int returnDateOption = JOptionPane.showConfirmDialog(null, returnDateMessage, "Enter the return date", JOptionPane.OK_CANCEL_OPTION);
-                        if (returnDateOption == JOptionPane.OK_OPTION) {
-                            Date returnDate = dateFormat.parse(returnDateField.getText());
-                            double rentalPrice = dealership.rentLocation(plateNumber, clientId, location, rentDate, returnDate);
-                            if (rentalPrice > 0) {
-                                JOptionPane.showMessageDialog(MainFrame.this, "Vehicle successfully rented! Rental price: " + rentalPrice, "Sucess", JOptionPane.INFORMATION_MESSAGE);
-                            } else {
-                                JOptionPane.showMessageDialog(MainFrame.this, "It was not possible to rent the vehicle", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-                    } catch (ParseException ex) {
-                        JOptionPane.showMessageDialog(MainFrame.this, "Invalid rental or return date", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
         });
     }
     public static void main(String[] args) {
