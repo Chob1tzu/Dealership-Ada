@@ -4,13 +4,13 @@ import Dealership.Interface.RentService;
 
 import java.util.Date;
 
-public class SmallVehicleRentImp implements RentService {
+public class SmallRentImp implements RentService {
     private static final double SMALL_RATE = 100.0;
     private static final double SSN_DISCOUNT = 0.05;
     private static final double EIN_DISCOUNT = 0.10;
 
     @Override
-    public void rentVehicle(Dealership dealership, RentService rentService, String plateNumber, String clientId, Date rentDate) {
+    public void rentVehicle(Dealership dealership, String plateNumber, String clientId, Date rentDate) {
         Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
         Client client = dealership.searchClientById(clientId);
 
@@ -26,7 +26,7 @@ public class SmallVehicleRentImp implements RentService {
         }
     }
     @Override
-    public double returnVehicle(Dealership dealership, RentService rentService, String plateNumber, String clientId, Date returnDate) {
+    public double returnVehicle(Dealership dealership, String plateNumber, String clientId, Date returnDate) {
         Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
 
         if (vehicle == null) {
@@ -36,18 +36,18 @@ public class SmallVehicleRentImp implements RentService {
             System.out.println("Vehicle is not currently rented.");
             return 0;
         } else {
-            double rentalPrice = rentPrice(dealership, rentService, plateNumber, clientId, returnDate);
+            double rentalPrice = rentPrice(dealership, plateNumber, clientId, returnDate);
             System.out.println("Vehicle returned successfully.");
             return rentalPrice;
         }
     }
     @Override
-    public double rentPrice(Dealership dealership, RentService rentService, String plateNumber, String clientId, Date returnDate) {
+    public double rentPrice(Dealership dealership, String plateNumber, String clientId, Date returnDate) {
         Client client = dealership.searchClientById(clientId);
         Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
 
         if (vehicle.isRented) {
-            double rentalDuration = calculateRentTime(returnDate, plateNumber, dealership);
+            double rentalDuration = calculateRentTime(dealership, plateNumber, returnDate);
             double rentalPrice = SMALL_RATE * rentalDuration;
 
             switch (client.getType()) {
@@ -71,7 +71,7 @@ public class SmallVehicleRentImp implements RentService {
     }
 
     @Override
-    public double calculateRentTime(Date returnDate, String plateNumber, Dealership dealership) {
+    public double calculateRentTime(Dealership dealership, String plateNumber,Date returnDate) {
         Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
 
         int rentalDays =  (int) Math.floor(((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime())) / (24 * 60 * 60 * 1000));

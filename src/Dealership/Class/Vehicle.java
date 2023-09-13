@@ -70,7 +70,6 @@ public class Vehicle {
         this.year = year;
     }
 
-
     public void setRented() {
         this.isRented = false;
     }
