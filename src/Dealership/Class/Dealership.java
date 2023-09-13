@@ -24,11 +24,10 @@ public class Dealership {
             }
         }
 
-        Vehicle newVehicle = new Vehicle(plateNumber, type, brand, model, year, color);
+        Vehicle newVehicle = new Vehicle(plateNumber, type, brand, model,year, color);
         vehicles.add(newVehicle);
         System.out.println("Vehicle registered successfully.");
     }
-    // ARRUMAR O MODIFICADOR DE VEICULO PARA USAR O MÉTOODO DE BUSCA MODIFICAR COISAS ESPECÍFICAS
     public Vehicle searchVehicleByPlate(String plateNumber) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getPlateNumber().equals(plateNumber)) {
@@ -77,7 +76,7 @@ public class Dealership {
         System.out.println("Client not found.");
         return null;
     }
-    private Client searchClientByName(String clientName) {
+    public Client searchClientByName(String clientName) {
         for (Client client : clients) {
             if (client.getClientId().equals(clientName)) {
                 return client;
@@ -86,7 +85,6 @@ public class Dealership {
         System.out.println("Client not found.");
         return null;
     }
-    // ARRUMAR O MODIFICADOR DE CLIENTE PARA USAR O método findClient
     public void modifyClient(String clientId, String newName, ClientType newType) {
         for (Client client : clients) {
             if (client.getClientId().equals(clientId)) {

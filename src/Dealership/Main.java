@@ -15,6 +15,7 @@ public class Main {
 
         Dealership dealership = new Dealership();
         RentService rentService = new SuvVehicleRentImp();
+
         dealership.registerVehicle("123", VehicleType.SMALL,"Ford", "KA", "2010", "ABC123");
 
 
