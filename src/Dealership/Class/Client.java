@@ -3,29 +3,27 @@ package Dealership.Class;
 import Dealership.Enum.ClientType;
 
 public class Client {
-    private String name;
-    private String id;
-    private ClientType type;
+    protected String name;
+    protected String clientId;
+    protected ClientType type;
 
-    public Client(String id, ClientType type) {
-        this.id = id;
+    Client(String clientId, String name, ClientType type) {
+        this.clientId = clientId;
+        this.name = name;
         this.type = type;
     }
 
+    public String getName() { return name; }
 
-    public String getId() {
-        return id;
-    }
+    void setName(String name) { this.name = name; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String getClientId() { return clientId; }
+
+    void setClientId(String clientId) { this.clientId = clientId; }
 
     public ClientType getType() {
         return type;
     }
 
-    public void setType(ClientType type) {
-        this.type = type;
-    }
+    void setType(ClientType type) { this.type = type; }
 }

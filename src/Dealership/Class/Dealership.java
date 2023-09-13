@@ -4,114 +4,130 @@ import Dealership.Enum.ClientType;
 import Dealership.Enum.VehicleType;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-class CarDealership {
-    private List<Vehicle> vehicles;
-    private List<Client> clients;
 
-    public CarDealership() {
+public class Dealership {
+    private final List<Vehicle> vehicles;
+    private final List<Client> clients;
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+    public Dealership() {
         vehicles = new ArrayList<>();
         clients = new ArrayList<>();
     }
 
-    public void registerVehicle(String plateNumber, VehicleType type) {
+    public void registerVehicle(String plateNumber, VehicleType type, String brand, String model, String year, String color) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getPlateNumber().equals(plateNumber)) {
-                System.out.println("Vehicle with this plate number already exists.");
+                System.out.printf("Vehicle with plate number %s already exists.\n", plateNumber);
                 return;
             }
         }
 
-        Vehicle newVehicle = new Vehicle(plateNumber, type);
+        Vehicle newVehicle = new Vehicle(plateNumber, type, brand, model,year, color);
         vehicles.add(newVehicle);
-        System.out.println("Vehicle registered successfully.");
+        System.out.printf("Vehicle with plate %s registered successfully.\n", plateNumber);
     }
-
-    public void modifyVehicle(String plateNumber, VehicleType newType) {
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle.getPlateNumber().equals(plateNumber)) {
-                vehicle = new Vehicle(plateNumber, newType);
-                System.out.println("Vehicle modified successfully.");
-                return;
-            }
-        }
-        System.out.println("Vehicle not found.");
-    }
-
-    public Vehicle searchVehicle(String plateNumber) {
+    public Vehicle searchVehicleByPlate(String plateNumber) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getPlateNumber().equals(plateNumber)) {
                 return vehicle;
             }
         }
-        return null; // Vehicle not found
+        System.out.println("Client not found.");
+        return null;
+    }
+    public void modifyVehicle(String plateNumber, VehicleType type, String brand, String model, String year) {
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getPlateNumber().equals(plateNumber)) {
+                vehicle.setType(type);
+                vehicle.setBrand(brand);
+                vehicle.setModel(model);
+                vehicle.setYear(year);
+
+                System.out.printf("Vehicle with plate %s modified successfully.\n", plateNumber);
+                return;
+            }
+        }
+        System.out.printf("Vehicle with plate %s was not found.\n", plateNumber);
     }
 
-    public void registerClient(String id, ClientType type) {
+    public void modifyVehicle(String plateNumber, String newPlateNumber, VehicleType type, String brand, String model, String year) {
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getPlateNumber().equals(plateNumber)) {
+                vehicle.setType(type);
+                vehicle.setBrand(brand);
+                vehicle.setModel(model);
+                vehicle.setYear(year);
+                vehicle.setPlateNumber(newPlateNumber);
+
+                System.out.printf("Vehicle with new plate %s modified successfully.\n", newPlateNumber);
+                return;
+            }
+        }
+        System.out.printf("Vehicle with plate %s was not found.\n", plateNumber);
+    }
+
+
+    public void registerClient(String clientId, String name, ClientType type) {
         for (Client client : clients) {
-            if (client.getId().equals(id)) {
-                System.out.println("Client with this ID already exists.");
+            if (client.getClientId().equals(clientId)) {
+                System.out.printf("Vehicle with ID %s already exists.\n", clientId);
                 return;
             }
         }
 
-        Client newClient = new Client(id, type);
+        Client newClient = new Client(clientId, name, type);
         clients.add(newClient);
-        System.out.println("Client registered successfully.");
+        System.out.printf("Client %s registered successfully\n", name);
     }
 
-    public void modifyClient(String id, ClientType newType) {
+    public Client searchClientById(String clientId) {
         for (Client client : clients) {
-            if (client.getId().equals(id)) {
-                client = new Client(id, newType);
+            if (client.getClientId().equals(clientId)) {
+                return client;
+            }
+        }
+        System.out.printf("Client with id %s was not found.\n", clientId);
+        return null;
+    }
+    public Client searchClientByName(String clientName) {
+        for (Client client : clients) {
+            if (client.getClientId().equals(clientName)) {
+                return client;
+            }
+        }
+        System.out.println("Client not found.");
+        return null;
+    }
+    public void modifyClient(String clientId, String newName, ClientType newType) {
+        for (Client client : clients) {
+            if (client.getClientId().equals(clientId)) {
+                client.setClientId(clientId);
+                client.setName(newName);
+                client.setType(newType);
                 System.out.println("Client modified successfully.");
                 return;
             }
         }
         System.out.println("Client not found.");
     }
-
-    public boolean rentVehicle(String plateNumber, String clientId, Date rentDate) {
-        Vehicle vehicle = searchVehicle(plateNumber);
-        if (vehicle != null && !vehicle.isRented()) {
-            Client client = findClientById(clientId);
-            if (client != null) {
-                vehicle.rentVehicle(rentDate);
-                System.out.println("Vehicle rented successfully.");
-                return true;
-            } else {
-                System.out.println("Client not found.");
-            }
-        } else if (vehicle != null && vehicle.isRented()) {
-            System.out.println("Vehicle is already rented.");
-        } else {
-            System.out.println("Vehicle not found.");
-        }
-        return false;
-    }
-
-    public double returnVehicle(String plateNumber, Date returnDate) {
-        Vehicle vehicle = searchVehicle(plateNumber);
-        if (vehicle != null && vehicle.isRented()) {
-            double rentalPrice = vehicle.returnVehicle(returnDate);
-            System.out.println("Vehicle returned successfully.");
-            return rentalPrice;
-        } else if (vehicle != null && !vehicle.isRented()) {
-            System.out.println("Vehicle is not currently rented.");
-        } else {
-            System.out.println("Vehicle not found.");
-        }
-        return 0.0; // Vehicle not found or not rented
-    }
-
-    private Client findClientById(String clientId) {
+    public List<Client> searchClientsByPartialName(String partialName) {
+        List<Client> matchingClients = new ArrayList<>();
         for (Client client : clients) {
-            if (client.getId().equals(clientId)) {
-                return client;
+            if (client.getName().toLowerCase().contains(partialName.toLowerCase())) {
+                matchingClients.add(client);
             }
         }
-        return null; // Client not found
+        return matchingClients;
     }
+
+
 }
