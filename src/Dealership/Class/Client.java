@@ -6,7 +6,6 @@ public class Client {
     protected String name;
     protected String clientId;
     protected ClientType type;
-    protected String partialName;
 
     Client(String clientId, String name, ClientType type) {
         this.clientId = clientId;

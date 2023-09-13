@@ -19,6 +19,7 @@ public class Main {
         RentService suvRentService = new SuvRentImp();
         RentService smallRentService = new SmallRentImp();
         RentService mediumRentService = new MediumRentImp();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         dealership.registerVehicle("123", VehicleType.SUV,"Ford", "KA", "2010", "Black");
         dealership.registerVehicle("456", VehicleType.SMALL,"Chevrolet ", "Camaro", "2011", "White");
@@ -31,7 +32,7 @@ public class Main {
 
         System.out.println();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         try {
             Date rentDate = dateFormat.parse("2023-09-10 10:00:00");
             suvRentService.rentVehicle(dealership,"123","111EIN", rentDate, "SP");
