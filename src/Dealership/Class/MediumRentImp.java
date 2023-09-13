@@ -53,12 +53,12 @@ public class MediumRentImp implements RentService {
 
             switch (client.getType()) {
                 case SSN -> {
-                    if (rentalDuration >= 5) {
+                    if (rentalDuration > 5) {
                         rentalPrice *= 1 - SSN_DISCOUNT;
                     }
                 }
                 case EIN -> {
-                    if (rentalDuration >= 3) {
+                    if (rentalDuration > 3) {
                         rentalPrice *= 1 - EIN_DISCOUNT;
                     }
                 }

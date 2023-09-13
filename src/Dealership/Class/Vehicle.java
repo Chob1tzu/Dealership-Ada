@@ -29,71 +29,71 @@ public class Vehicle {
         this.returnLocation = null;
     }
 
-    public String getPlateNumber() {
+    String getPlateNumber() {
         return plateNumber;
     }
 
-    public void setPlateNumber(String plateNumber) {
+    void setPlateNumber(String plateNumber) {
         this.plateNumber = plateNumber;
     }
-    public VehicleType getType() {
+    VehicleType getType() {
         return type;
     }
 
-    public void setType(VehicleType type) {
+    void setType(VehicleType type) {
         this.type = type;
     }
 
-    public String getBrand() {
+    String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) { this.brand = brand; }
+    void setBrand(String brand) { this.brand = brand; }
 
-    public String getModel() {
+    String getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    void setModel(String model) {
         this.model = model;
     }
 
-    public String getColor() {
+    String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    void setColor(String color) {
         this.color = color;
     }
 
-    public String getYear() {
+    String getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    void setYear(String year) {
         this.year = year;
     }
 
-    public void setRented() {
+    void setRented() {
         this.isRented = false;
     }
 
-    public void setLastRentedDate() {
+    void setLastRentedDate() {
         this.lastRentedDate = null;
     }
 
-    public boolean isRented() {
+     boolean isRented() {
         return isRented;
     }
 
-    public void vehicleRent(Date rentDate, String rentLocation) {
+    void vehicleRent(Date rentDate, String rentLocation) {
         if (!isRented) {
             this.isRented = true;
             this.rentLocation = rentLocation;
             this.lastRentedDate = rentDate;
         }
     }
-    public void vehicleReturn(Date rentDate, String returnLocation) {
+    void vehicleReturn(Date rentDate, String returnLocation) {
         if (isRented) {
             this.isRented = false;
             this.returnLocation = returnLocation;

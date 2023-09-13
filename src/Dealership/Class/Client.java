@@ -7,23 +7,23 @@ public class Client {
     protected String clientId;
     protected ClientType type;
 
-    public Client(String clientId, String name, ClientType type) {
+    Client(String clientId, String name, ClientType type) {
         this.clientId = clientId;
         this.name = name;
         this.type = type;
     }
 
-    public String getName() { return name; }
+    String getName() { return name; }
 
-    public void setName(String name) { this.name = name; }
+    void setName(String name) { this.name = name; }
 
-    public String getClientId() { return clientId; }
+    String getClientId() { return clientId; }
 
-    public void setClientId(String clientId) { this.clientId = clientId; }
+    void setClientId(String clientId) { this.clientId = clientId; }
 
-    public ClientType getType() {
+    ClientType getType() {
         return type;
     }
 
-    public void setType(ClientType type) { this.type = type; }
+    void setType(ClientType type) { this.type = type; }
 }
