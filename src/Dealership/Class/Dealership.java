@@ -77,7 +77,7 @@ public class Dealership {
         System.out.println("Client not found.");
         return null;
     }
-    private Client searchClientByName(String clientName) {
+    public Client searchClientByName(String clientName) {
         for (Client client : clients) {
             if (client.getClientId().equals(clientName)) {
                 return client;
@@ -99,5 +99,4 @@ public class Dealership {
         }
         System.out.println("Client not found.");
     }
-
 }
