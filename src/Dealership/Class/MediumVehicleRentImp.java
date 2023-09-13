@@ -9,29 +9,26 @@ public class MediumVehicleRentImp implements RentService {
     private static final double SSN_DISCOUNT = 0.05;
     private static final double EIN_DISCOUNT = 0.10;
 
-    public boolean rentVehicle(Dealership dealership, RentService rentService, String vehicleId, String clientId, Date rentDate) {
-        Vehicle vehicle = dealership.searchVehicleById(vehicleId);
-        if (vehicle != null && !vehicle.isRented()) {
-            Client client = dealership.searchClientById(clientId);
-            if (client != null) {
-                vehicle.rentVehicle(rentDate);
-                System.out.println("Medium Vehicle rented successfully.");
-                return true;
-            } else {
-                System.out.println("Client not found.");
-            }
-        } else if (vehicle != null && vehicle.isRented()) {
+    public void rentVehicle(Dealership dealership, RentService rentService, String plateNumber, String clientId, Date rentDate) {
+        Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
+        Client client = dealership.searchClientById(clientId);
+
+        if (vehicle == null) {
+            System.out.println("Vehicle not found.");
+        } else if (client == null) {
+            System.out.println("Client not found.");
+        } else if (vehicle.isRented()) {
             System.out.println("Vehicle is already rented.");
         } else {
-            System.out.println("Vehicle not found.");
+            vehicle.vehicleRent(rentDate);
+            System.out.println("Medium Vehicle rented successfully.");
         }
-        return false;
     }
     @Override
-    public double returnVehicle(Dealership dealership, RentService rentService, String vehicleId, String clientId, Date returnDate) {
-        Vehicle vehicle = dealership.searchVehicleById(vehicleId);
+    public double returnVehicle(Dealership dealership, RentService rentService, String plateNumber, String clientId, Date returnDate) {
+        Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
         if (vehicle != null && vehicle.isRented()) {
-            double rentalPrice = rentService.rentPrice(dealership, rentService, vehicleId, clientId, returnDate);
+            double rentalPrice = rentPrice(dealership, rentService, plateNumber, clientId, returnDate);
             System.out.println("Vehicle returned successfully.");
             return rentalPrice;
         } else if (vehicle != null) {
@@ -42,26 +39,26 @@ public class MediumVehicleRentImp implements RentService {
         return 0;
     }
     @Override
-    public double rentPrice(Dealership dealership, RentService rentService, String vehicleId, String clientId, Date returnDate) {
+    public double rentPrice(Dealership dealership, RentService rentService, String plateNumber, String clientId, Date returnDate) {
         Client client = dealership.searchClientById(clientId);
-        Vehicle vehicle = dealership.searchVehicleById(vehicleId);
+        Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
         if (vehicle.isRented) {
-            // Calculate the rental duration in days
-            double rentalDuration = ((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime())) / (24 * 60 * 60 * 1000);
+            // Calculate the rental duration in days, rounded up
+            double rentalDuration = calculateRentTime(returnDate, plateNumber, dealership);
 
             double rentalPrice = MEDIUM_RATE * rentalDuration;
 
             switch (client.getType()) {
-                case SSN:
+                case SSN -> {
                     if (rentalDuration >= 5) {
                         rentalPrice *= 1 - SSN_DISCOUNT;
                     }
-                    break;
-                case EIN:
+                }
+                case EIN -> {
                     if (rentalDuration >= 3) {
                         rentalPrice *= 1 - EIN_DISCOUNT;
                     }
-                    break;
+                }
             }
 
             vehicle.setRented();
@@ -69,5 +66,18 @@ public class MediumVehicleRentImp implements RentService {
             return rentalPrice;
         }
         return 0;
+    }
+
+    @Override
+    public double calculateRentTime(Date returnDate, String plateNumber, Dealership dealership) {
+        Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
+
+        int rentalDays =  (int) Math.floor(((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime())) / (24 * 60 * 60 * 1000));
+        int rentalHours = (int) Math.floor(((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime()) / (60 * 60 * 1000)) - (24 * rentalDays));
+        double rentalDuration = Math.ceil(((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime())) / (24 * 60 * 60 * 1000));
+
+        System.out.println("Vehicle rented for: " + rentalDays + " day(s) and " + rentalHours + " hour(s).");
+
+        return rentalDuration;
     }
 }

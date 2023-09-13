@@ -5,33 +5,24 @@ import Dealership.Enum.VehicleType;
 import java.util.Date;
 
 public class Vehicle {
-    protected String vehicleId;
+    protected String plateNumber;
     protected VehicleType type;
     protected String brand;
     protected String model;
     protected String color;
     protected String year;
-    protected String plateNumber;
     protected boolean isRented;
     protected Date lastRentedDate;
 
-    public Vehicle(String vehicleId, VehicleType type, String brand, String model, String year, String plateNumber) {
-        this.vehicleId = vehicleId;
+    public Vehicle(String plateNumber, VehicleType type, String brand, String model, String year, String color) {
+        this.plateNumber = plateNumber;
         this.type = type;
         this.brand = brand;
         this.model = model;
         this.year = year;
-        this.plateNumber = plateNumber;
+        this.color = color;
         this.isRented = false;
         this.lastRentedDate = null;
-    }
-
-    public String getVehicleId() {
-        return vehicleId;
-    }
-
-    public void setVehicleId(String vehicleId) {
-        this.vehicleId = vehicleId;
     }
 
     public String getPlateNumber() {
@@ -81,6 +72,7 @@ public class Vehicle {
         this.year = year;
     }
 
+
     public void setRented() {
         this.isRented = false;
     }
@@ -93,7 +85,7 @@ public class Vehicle {
         return isRented;
     }
 
-    public void rentVehicle(Date rentDate) {
+    public void vehicleRent(Date rentDate) {
         if (!isRented) {
             this.isRented = true;
             this.lastRentedDate = rentDate;

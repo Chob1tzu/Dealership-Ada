@@ -27,7 +27,7 @@ public class Main {
             rentService.rentVehicle(dealership,rentService,"123","123EIN", rentDate);
 
             // Return the vehicle
-            Date returnDate = dateFormat.parse("2023-09-11 11:00:00");
+            Date returnDate = dateFormat.parse("2023-09-10 11:30:00");
             double rentalPrice = rentService.returnVehicle(dealership, rentService, "123", "123EIN", returnDate);
             System.out.println("Rental Price: $" + rentalPrice);
         } catch (Exception e) {
