@@ -7,9 +7,9 @@ public class Client {
     protected String clientId;
     protected ClientType type;
 
-    public Client(String name, String clientId, ClientType type) {
-        this.name = name;
+    public Client(String clientId, String name, ClientType type) {
         this.clientId = clientId;
+        this.name = name;
         this.type = type;
     }
 

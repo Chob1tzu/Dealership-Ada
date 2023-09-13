@@ -13,6 +13,8 @@ public class Vehicle {
     protected String year;
     protected boolean isRented;
     protected Date lastRentedDate;
+    protected String rentLocation;
+    protected String returnLocation;
 
     public Vehicle(String plateNumber, VehicleType type, String brand, String model, String year, String color) {
         this.plateNumber = plateNumber;
@@ -23,6 +25,8 @@ public class Vehicle {
         this.color = color;
         this.isRented = false;
         this.lastRentedDate = null;
+        this.rentLocation = null;
+        this.returnLocation = null;
     }
 
     public String getPlateNumber() {
@@ -82,9 +86,17 @@ public class Vehicle {
         return isRented;
     }
 
-    public void vehicleRent(Date rentDate) {
+    public void vehicleRent(Date rentDate, String rentLocation) {
         if (!isRented) {
             this.isRented = true;
+            this.rentLocation = rentLocation;
+            this.lastRentedDate = rentDate;
+        }
+    }
+    public void vehicleReturn(Date rentDate, String returnLocation) {
+        if (isRented) {
+            this.isRented = false;
+            this.returnLocation = returnLocation;
             this.lastRentedDate = rentDate;
         }
     }

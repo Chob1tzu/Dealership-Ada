@@ -19,14 +19,14 @@ public class Dealership {
     public void registerVehicle(String plateNumber, VehicleType type, String brand, String model, String year, String color) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getPlateNumber().equals(plateNumber)) {
-                System.out.println("Vehicle with this plate number already exists.");
+                System.out.printf("Vehicle with plate number %s already exists.\n", plateNumber);
                 return;
             }
         }
 
         Vehicle newVehicle = new Vehicle(plateNumber, type, brand, model,year, color);
         vehicles.add(newVehicle);
-        System.out.println("Vehicle registered successfully.");
+        System.out.printf("Vehicle with plate %s registered successfully.\n", plateNumber);
     }
     public Vehicle searchVehicleByPlate(String plateNumber) {
         for (Vehicle vehicle : vehicles) {
@@ -37,6 +37,21 @@ public class Dealership {
         System.out.println("Client not found.");
         return null;
     }
+    public void modifyVehicle(String plateNumber, VehicleType type, String brand, String model, String year) {
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getPlateNumber().equals(plateNumber)) {
+                vehicle.setType(type);
+                vehicle.setBrand(brand);
+                vehicle.setModel(model);
+                vehicle.setYear(year);
+
+                System.out.printf("Vehicle with plate %s modified successfully.\n", plateNumber);
+                return;
+            }
+        }
+        System.out.printf("Vehicle with plate %s was not found.\n", plateNumber);
+    }
+
     public void modifyVehicle(String plateNumber, String newPlateNumber, VehicleType type, String brand, String model, String year) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getPlateNumber().equals(plateNumber)) {
@@ -46,25 +61,25 @@ public class Dealership {
                 vehicle.setYear(year);
                 vehicle.setPlateNumber(newPlateNumber);
 
-                System.out.println("Vehicle modified successfully.");
+                System.out.printf("Vehicle with new plate %s modified successfully.\n", newPlateNumber);
                 return;
             }
         }
-        System.out.println("Vehicle not found.");
+        System.out.printf("Vehicle with plate %s was not found.\n", plateNumber);
     }
 
 
-    public void registerClient(String id, String name, ClientType type) {
+    public void registerClient(String clientId, String name, ClientType type) {
         for (Client client : clients) {
-            if (client.getClientId().equals(id)) {
-                System.out.println("Client with this ID already exists.");
+            if (client.getClientId().equals(clientId)) {
+                System.out.printf("Vehicle with ID %s already exists.\n", clientId);
                 return;
             }
         }
 
-        Client newClient = new Client(id, name, type);
+        Client newClient = new Client(clientId, name, type);
         clients.add(newClient);
-        System.out.println("Client registered successfully.");
+        System.out.printf("Client %s registered successfully\n", name);
     }
 
     public Client searchClientById(String clientId) {
@@ -73,7 +88,7 @@ public class Dealership {
                 return client;
             }
         }
-        System.out.println("Client not found.");
+        System.out.printf("Client with id %s was not found.\n", clientId);
         return null;
     }
     public Client searchClientByName(String clientName) {

@@ -10,34 +10,35 @@ public class MediumRentImp implements RentService {
     private static final double EIN_DISCOUNT = 0.10;
 
     @Override
-    public void rentVehicle(Dealership dealership, String plateNumber, String clientId, Date rentDate) {
+    public void rentVehicle(Dealership dealership, String plateNumber, String clientId, Date rentDate, String rentLocation) {
         Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
         Client client = dealership.searchClientById(clientId);
 
         if (vehicle == null) {
-            System.out.println("Vehicle not found.");
+            System.out.printf("Vehicle with plate %s was not found.\n", plateNumber);
         } else if (client == null) {
-            System.out.println("Client not found.");
+            System.out.printf("Client with id %s was not found.\n", clientId);
         } else if (vehicle.isRented()) {
-            System.out.println("Vehicle is already rented.");
+            System.out.printf("Vehicle with plate %s is already rented.\n", plateNumber);
         } else {
-            vehicle.vehicleRent(rentDate);
-            System.out.println("Medium Vehicle rented successfully.");
+            vehicle.vehicleRent(rentDate, rentLocation);
+            System.out.printf("Medium Vehicle with plate %s rented successfully at %s.\n", plateNumber, rentLocation);
         }
     }
     @Override
-    public double returnVehicle(Dealership dealership, String plateNumber, String clientId, Date returnDate) {
+    public double returnVehicle(Dealership dealership, String plateNumber, String clientId, Date returnDate, String returnLocation) {
         Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
 
         if (vehicle == null) {
-            System.out.println("Vehicle not found.");
+            System.out.printf("Vehicle with plate %s was not found.\n", plateNumber);
             return 0;
         } else if (!vehicle.isRented) {
-            System.out.println("Vehicle is not currently rented.");
+            System.out.printf("Vehicle with plate %s is not currently rented.\n", plateNumber);
             return 0;
         } else {
             double rentalPrice = rentPrice(dealership, plateNumber, clientId, returnDate);
-            System.out.println("Vehicle returned successfully.");
+            vehicle.vehicleReturn(returnDate, returnLocation);
+            System.out.printf("Vehicle with plate %s returned successfully at %s. \n", plateNumber, returnLocation);
             return rentalPrice;
         }
     }
@@ -71,16 +72,17 @@ public class MediumRentImp implements RentService {
     }
 
     @Override
-    public double calculateRentTime(Dealership dealership, String plateNumber,Date returnDate) {
+    public double calculateRentTime(Dealership dealership, String plateNumber, Date returnDate) {
         Vehicle vehicle = dealership.searchVehicleByPlate(plateNumber);
 
+        long dateDifferenceInMilliseconds = returnDate.getTime() - vehicle.lastRentedDate.getTime();
+        float millisecondsInADay = 24 * 60 * 60 * 1000;
 
-        int rentalDays =  (int) Math.floor(((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime())) / (24 * 60 * 60 * 1000));
-        int rentalHours = (int) Math.floor(((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime()) / (60 * 60 * 1000)) - (24 * rentalDays));
-        double rentalDuration = Math.ceil(((double)(returnDate.getTime() - vehicle.lastRentedDate.getTime())) / (24 * 60 * 60 * 1000));
+        int rentalDays =  (int) Math.floor(dateDifferenceInMilliseconds / (millisecondsInADay));
+        int rentalHours = (int) ((Math.floor(dateDifferenceInMilliseconds / ((millisecondsInADay / 24)) - (24 * rentalDays))));
 
         System.out.printf("Vehicle rented for: %d day(s) and %d hour(s). \n", rentalDays, rentalHours);
 
-        return rentalDuration;
+        return Math.ceil(dateDifferenceInMilliseconds / (millisecondsInADay));
     }
 }
