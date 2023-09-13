@@ -4,6 +4,7 @@ import Dealership.Enum.ClientType;
 import Dealership.Enum.VehicleType;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -128,6 +129,33 @@ public class Dealership {
         }
         return matchingClients;
     }
-
-
+    public double rentLocation(String plateNumber, String clientId, String location, Date rentDate, Date returnDate) {
+        Vehicle vehicle = searchVehicleByPlate(plateNumber);
+        Client client = searchClientById(clientId);
+        if (vehicle == null) {
+            System.out.println("Veículo não encontrado.");
+            return 0;
+        }
+        if (client == null) {
+            System.out.println("Cliente não encontrado.");
+            return 0;
+        }
+        if (vehicle.isRented()) {
+            System.out.println("O veículo já está alugado.");
+            return 0;
+        }
+        double rentalPrice = calculateRentalPrice(vehicle, location, rentDate, returnDate);
+        if (rentalPrice > 0) {
+            vehicle.vehicleRent(rentDate, location);
+            System.out.println("Veículo alugado com sucesso.");
+        } else {
+            System.out.println("Não foi possível alugar o veículo.");
+        }
+        return rentalPrice;
+    }
+    private double calculateRentalPrice(Vehicle vehicle, String location, Date rentDate, Date returnDate) {
+        double dailyRate = 100.0;
+        int rentalDays = (int) ((returnDate.getTime() - rentDate.getTime()) / (24 * 60 * 60 * 1000));
+        return dailyRate * rentalDays;
+    }
 }
